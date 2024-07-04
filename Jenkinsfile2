@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         scannerHome = tool name: 'sonar-scanner'
-        SONAR_TOKEN = credentials('jenkins-sonar')
+        SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
     }
     stages {
         stage('Obtener codigo') {
@@ -14,7 +14,7 @@ pipeline {
             parallel {
                 stage('Scanner cobol') {
                     steps {
-                        withSonarQubeEnv('sc1') {
+                        withSonarQubeEnv('sonar-scanner') {
                             dir ('Codigo/Cobol') {
                                 sh """
                                 ${scannerHome}/bin/sonar-scanner \
@@ -33,7 +33,7 @@ pipeline {
                                 sh 'pwd'
                                 sh 'chmod +x ./compile.sh'
                                 sh 'ls -a'
-                                sh '$SONARQUBE_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
+                                sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
                                 sh """
                                 ${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.login=${SONAR_TOKEN} \
