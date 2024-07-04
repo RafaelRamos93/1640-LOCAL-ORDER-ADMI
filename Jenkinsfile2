@@ -46,7 +46,9 @@ pipeline {
             }
         }
         stage('Post Parallel') {
-            echo "Se ejecuto parallel, y este es un mensaje sencillo"
+            steps {
+                echo "Se ejecuto parallel, y este es un mensaje sencillo"
+            }
         }
     }
 }
