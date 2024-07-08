@@ -20,9 +20,13 @@ pipeline {
                                 ${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.login=${SONAR_TOKEN} \
                                 -X
+                                -Dsonar.projectKey=poc-55tq-cobol-Rafael \
+                                -Dsonar.organization=poc-55tq \
+                                -Dsonar.host.url=https://sonarcloud.io
                             """
                             }
                         }
+                        /*
                         script {
                             sh "echo 'ESPERAR QUALITY GATE DE COBOL'"
                             def qgCobol = waitForQualityGate()
@@ -30,6 +34,7 @@ pipeline {
                                 error "Pipeline failed due to code quality issues; ${qgCobol.status}"
                             }
                         }
+                        */
                     }
                 }
                 /*
@@ -56,9 +61,13 @@ pipeline {
                                 ${scannerHome}/bin/sonar-scanner \
                                 -Dsonar.login=${SONAR_TOKEN} \
                                 -X
+                                -Dsonar.projectKey=poc-55tq-cpp-Rafael \
+                                -Dsonar.organization=poc-55tq \
+                                -Dsonar.host.url=https://sonarcloud.io
                             """
                             }
                         }
+                        /*
                         script {
                             sh "echo 'ESPERAR QUALITY GATE DE C++'"
                             def qgCpp = waitForQualityGate()
@@ -66,9 +75,10 @@ pipeline {
                                 error "Pipeline failed due to code quality issues; ${qgCpp.status}"
                             }
                         }
+                        */
                     }
                 }
-                /*
+                
                 stage('Quality Gate for C++') {
                     steps {
                         script {
@@ -80,6 +90,34 @@ pipeline {
                     }
                 }
                 */
+            }
+        }
+        stage('Quality Gate COBOL') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') {
+                        def qgCobol = waitForQualityGate()
+                        if (qgCobol == null || qgCobol.status != 'NONE') {
+                            error "Pipeline interrumpido debido a que la Quality Gate de COBOL no se pudo determinar: ${qgCobol?.status}"
+                        } else if (qgCobol.status != 'OK') {
+                            error "Pipeline interrumpido debido a que la Quality Gate de COBOL falló: ${qgCobol.status}"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Quality Gate C++') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') {
+                        def qgCpp = waitForQualityGate()
+                        if (qgCpp == null || qgCpp.status != 'NONE') {
+                            error "Pipeline interrumpido debido a que la Quality Gate de C++ no se pudo determinar: ${qgCpp?.status}"
+                        } else if (qgCpp.status != 'OK') {
+                            error "Pipeline interrumpido debido a que la Quality Gate de C++ falló: ${qgCpp.status}"
+                        }
+                    }
+                }
             }
         }
         stage('Post Parallel') {
