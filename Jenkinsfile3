@@ -113,7 +113,7 @@ pipeline {
                             def qgCpp = waitForQualityGate()
                             //echo "${?}"
                             echo "-------------------- OBTENER VALORES DE VARIABLE-----------------------"
-                            echo "${qgCpp}"
+                            echo "${qgCpp.status}"
                             echo "-----------------------------------------------------------------------"
                         } catch (err) {
                             echo err.getMessage();
