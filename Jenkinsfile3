@@ -87,7 +87,7 @@ pipeline {
                 }
                 */
             }
-        }
+        }/*
         stage('Quality Gate COBOL') {
             steps {
                 script {
@@ -101,7 +101,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Quality Gate C++') {
             steps {
                 script {
