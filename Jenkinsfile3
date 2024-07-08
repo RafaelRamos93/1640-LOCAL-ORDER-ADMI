@@ -89,7 +89,6 @@ pipeline {
                         }
                     }
                 }
-                */
             }
         }
         stage('Quality Gate COBOL') {
