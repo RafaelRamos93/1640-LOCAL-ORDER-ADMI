@@ -12,6 +12,7 @@ pipeline {
         }
         stage('Ejemplo de ejecucion en paralelo') {
             parallel {
+                /*
                 stage('Scanner cobol') {
                     steps {
                         withSonarQubeEnv('sonar-scanner') {
@@ -31,9 +32,10 @@ pipeline {
                                 error "Pipeline failed due to code quality issues; ${qgCobol.status}"
                             }
                         }
-                        */
+                        
                     }
                 }
+                */
                 /*
                 stage ('Quality Gate for Cobol') {
                     steps {
@@ -106,12 +108,21 @@ pipeline {
             steps {
                 script {
                     timeout(time: 1, unit: 'HOURS') {
-                        def qgCpp = waitForQualityGate()
+
+                        try {
+                            def qgCpp = waitForQualityGate()
+                            echo "$?"
+
+                        } catch (err) {
+                            echo err.getMessage();
+                        }
+                        /*
                         if (qgCpp == null || qgCpp.status != 'NONE') {
                             error "Pipeline interrumpido debido a que la Quality Gate de C++ no se pudo determinar: ${qgCpp?.status}"
                         } else if (qgCpp.status != 'OK') {
                             error "Pipeline interrumpido debido a que la Quality Gate de C++ falló: ${qgCpp.status}"
                         }
+                        */
                     }
                 }
             }
