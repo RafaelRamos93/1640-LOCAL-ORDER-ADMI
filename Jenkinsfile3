@@ -52,19 +52,21 @@ pipeline {
                 stage('Scanner C++') {
                     steps {
                         script {
-                            dir('Codigo/C++') {
-                                sh 'pwd'
-                                sh 'chmod +x ./compile.sh'
-                                sh 'ls -a'
-                                sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
-                                sh """
-                                ${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.login=${SONAR_TOKEN} \
-                                -X
-                                -Dsonar.projectKey=poc-55tq-cpp-Rafael \
-                                -Dsonar.organization=poc-55tq \
-                                -Dsonar.host.url=https://sonarcloud.io
-                            """
+                            withSonarQubeEnv('sonar-scanner') {
+                                dir('Codigo/C++') {
+                                    sh 'pwd'
+                                    sh 'chmod +x ./compile.sh'
+                                    sh 'ls -a'
+                                    sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
+                                    sh """
+                                    ${scannerHome}/bin/sonar-scanner \
+                                    -Dsonar.login=${SONAR_TOKEN} \
+                                    -X
+                                    -Dsonar.projectKey=poc-55tq-cpp-Rafael \
+                                    -Dsonar.organization=poc-55tq \
+                                    -Dsonar.host.url=https://sonarcloud.io
+                                """
+                                }
                             }
                         }
                         /*
