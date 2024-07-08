@@ -22,12 +22,10 @@ pipeline {
                                 -X
                             """
                             }
-                        }
-                    }
-                    steps {
-                        def qgCobol = waitForQualityGate()
-                        if (qgCobol.status != 'OK') {
-                            error "Pipeline failed due to code quality issues; ${qgCobol.status}"
+                            def qgCobol = waitForQualityGate()
+                            if (qgCobol.status != 'OK') {
+                                error "Pipeline failed due to code quality issues; ${qgCobol.status}"
+                            }
                         }
                     }
                 }
@@ -45,12 +43,10 @@ pipeline {
                                 -X
                             """
                             }
-                        }
-                    }
-                    steps {
-                        def qgCpp = waitForQualityGate()
-                        if (qgCpp.status != 'OK') {
-                            error "Pipeline failed due to code quality issues; ${qgCpp.status}"
+                            def qgCpp = waitForQualityGate()
+                            if (qgCpp.status != 'OK') {
+                                error "Pipeline failed due to code quality issues; ${qgCpp.status}"
+                            }
                         }
                     }
                 }
