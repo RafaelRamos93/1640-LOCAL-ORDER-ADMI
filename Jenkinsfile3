@@ -23,8 +23,15 @@ pipeline {
                             """
                             }
                         }
+                        script {
+                            def qgCobol = waitForQualityGate()
+                            if (qgCobol.status != 'OK') {
+                                error "Pipeline failed due to code quality issues; ${qgCobol.status}"
+                            }
+                        }
                     }
                 }
+                /*
                 stage ('Quality Gate for Cobol') {
                     steps {
                         script {
@@ -35,6 +42,7 @@ pipeline {
                         }
                     }
                 }
+                */
                 stage('Scanner C++') {
                     steps {
                         script {
@@ -50,8 +58,15 @@ pipeline {
                             """
                             }
                         }
+                        script {
+                            def qgCpp = waitForQualityGate()
+                            if (qgCpp.status != 'OK') {
+                                error "Pipeline failed due to code quality issues; ${qgCpp.status}"
+                            }
+                        }
                     }
                 }
+                /*
                 stage('Quality Gate for C++') {
                     steps {
                         script {
@@ -62,6 +77,7 @@ pipeline {
                         }
                     }
                 }
+                */
             }
         }
         stage('Post Parallel') {
