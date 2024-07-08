@@ -43,15 +43,15 @@ pipeline {
                         }
                     }
                 }
-            }
-            stage('Quality Gate') {
-                steps {
-                    script {
-                        // Espera y obtiene el resultado de la Quality Gate de SonarCloud
-                        timeout(time: 1, unit: 'HOURS') { // Ajusta el tiempo de espera según sea necesario
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error "Pipeline interrumpido debido a que la Quality Gate de SonarCloud falló: ${qg.status}"
+                stage('Quality Gate') {
+                    steps {
+                        script {
+                            // Espera y obtiene el resultado de la Quality Gate de SonarCloud
+                            timeout(time: 1, unit: 'HOURS') { // Ajusta el tiempo de espera según sea necesario
+                                def qg = waitForQualityGate()
+                                if (qg.status != 'OK') {
+                                    error "Pipeline interrumpido debido a que la Quality Gate de SonarCloud falló: ${qg.status}"
+                                }
                             }
                         }
                     }
