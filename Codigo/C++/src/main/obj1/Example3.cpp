@@ -61,6 +61,10 @@ void bufferOverflow(char* input) {
     char buffer[10];
     strcpy(buffer, input); // Vulnerability: Buffer overflow
 }
+void bufferOverflow(char* input) {
+    char buffer[10];
+    strcpy(buffer, input); // Vulnerability: Buffer overflow
+}
 
 void useAfterFree() {
     int* ptr = new int(5);
