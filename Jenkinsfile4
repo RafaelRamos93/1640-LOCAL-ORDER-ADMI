@@ -3,11 +3,20 @@ pipeline {
     environment {
         scannerHome = tool name: 'sonar-scanner'
         SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN') 
+        GIT_COMMITER = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
     }
     stages {
         stage('Obtener Código Fuente') {
             steps{
                 git branch: 'example-rafa', poll: false, url: 'https://github.com/RafaelRamos93/1640-LOCAL-ORDER-ADMI.git'
+            }
+        }
+        stage('Obtener Committer') {
+            steps {
+                script {
+                    // Imprimir la información del committer
+                    echo "Commit realizado por: ${GIT_COMMITTER}"
+                }
             }
         }
         stage('Parallel Scans') {
