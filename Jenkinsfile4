@@ -2,7 +2,9 @@ pipeline {
     agent any
     environment {
         scannerHome = tool name: 'sonar-scanner'
-        SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN') 
+        SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
+        AUTHOR_NAME = ''
+        AUTHOR_EMAIL = ''
     }
     stages {
         stage('Obtener Código Fuente') {
@@ -16,6 +18,9 @@ pipeline {
                 script {
                     def committer = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
                     echo "Commit realizado por: ${committer}"
+                    AUTHOR_NAME = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
+                    AUTHOR_EMAIL = sh(script: "git log -1 --pretty=format:'%ae'", returnStdout: true).trim()
+                    echo "Nombre del autor: ${AUTHOR_NAME} < ${AUTHOR_EMAIL}"
                 }
             }
         }
