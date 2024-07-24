@@ -3,11 +3,26 @@ pipeline {
     environment {
         scannerHome = tool name: 'sonar-scanner'
         SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
+        AUTHOR_NAME = ''
+        AUTHOR_EMAIL = ''
+        RECIPIENTS = 'facturas.rafael.ramos@gmail.com'
     }
     stages {
         stage('Obtener Código Fuente') {
             steps{
                 git branch: 'example-rafa', poll: false, url: 'https://github.com/RafaelRamos93/1640-LOCAL-ORDER-ADMI.git'
+                checkout scm
+            }
+        }
+        stage('Obtener GitCommiter') {
+            steps {
+                script {
+                    def committer = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
+                    echo "Commit realizado por: ${committer}"
+                    AUTHOR_NAME = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
+                    AUTHOR_EMAIL = sh(script: "git log -1 --pretty=format:'%ae'", returnStdout: true).trim()
+                    echo "Nombre del autor: ${AUTHOR_NAME} < ${AUTHOR_EMAIL}"
+                }
             }
         }
         stage('Parallel Scans') {
@@ -33,6 +48,55 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+}
+post {
+    success {
+        script {
+            def subject = "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Successful"
+            def body = """
+                The pipeline ${env.JOB_NAME} build #${env.BUILD_NUMBER} was successful.
+                Check the Jenkins console output for more details.
+            """
+
+            emailext (
+                to: "${env.RECIPIENTS}",
+                subject: subject,
+                body: body
+            )
+        }
+    }
+    failure {
+        script {
+            def subject = "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Failed"
+            def body = """
+                The pipeline ${env.JOB_NAME} build #${env.BUILD_NUMBER} failed.
+                Check the Jenkins console output for more details.
+            """
+
+            emailext (
+                to: "${env.RECIPIENTS}",
+                subject: subject,
+                body: body
+            )
+        }
+    }
+    always {
+        script {
+            // Enviar un correo al autor del commit con el estado final del build
+            def subject = "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} - Completed"
+            def body = """
+                The pipeline ${env.JOB_NAME} build #${env.BUILD_NUMBER} has completed.
+                Check the Jenkins console output for more details.
+            """
+
+            emailext (
+                to: "${AUTHOR_EMAIL}",
+                subject: subject,
+                body: body,
+                attachLog: true
+            )
         }
     }
 }
