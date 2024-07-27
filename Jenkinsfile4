@@ -3,6 +3,7 @@ pipeline {
     environment {
         scannerHome = tool name: 'sonar-scanner'
         SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
+        //SNYK_TOKEN = credentials('SNYK_TOKEN')
         AUTHOR_NAME = ''
         AUTHOR_EMAIL = ''
         RECIPIENTS = 'facturas.rafael.ramos@gmail.com'
@@ -137,6 +138,12 @@ def sonarScanCpp() {
             -Dsonar.login=${SONAR_TOKEN} \
             -X
             """
+        }
+    }
+
+    withEnv(["SNYK_TOKEN=${credentials('SNYK_TOKEN')}"]) {
+        stage('Snyk Test') {
+            snykSecurity failOnIssues: true
         }
     }
 
