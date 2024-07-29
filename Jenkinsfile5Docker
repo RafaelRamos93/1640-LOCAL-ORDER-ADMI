@@ -8,7 +8,7 @@ pipeline {
         AUTHOR_EMAIL = ''
         RECIPIENTS = 'facturas.rafael.ramos@gmail.com'
         KICS_IMAGE = 'checkmarx/kics:latest'
-        WORKSPACE_DIR_COBOL ='./Codigo/Cobol'
+        WORKSPACE_DIR ='./Codigo/Cobol'
 
     }
     stages {
@@ -34,7 +34,7 @@ pipeline {
                 script {
                     docker.image("${KICS_IMAGE}").inside {
                         sh """
-                        kics scan --path ${WORKSPACE_DIR_COBOL} --output-path ${WORKSPACE}/kics-results
+                            docker run --rm -v ${WORKSPACE_DIR}:/project -v ${WORKSPACE}/kics-results:/results ${KICS_IMAGE} scan --path /project --output-path /results
                         """
                     }
                 }
