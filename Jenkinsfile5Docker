@@ -32,9 +32,7 @@ pipeline {
         stage('Run KICS') {
             steps {
                 script {
-                    docker.image("${KICS_IMAGE}").inside {
-                        sh 'docker run --rm -v ${WORKSPACE_DIR}:/project -v ${WORKSPACE}/kics-results:/results ${KICS_IMAGE} scan --path /project --output-path /results'
-                    }
+                    sh """docker run --rm -v ${WORKSPACE_DIR}:/project -v ${WORKSPACE}/kics-results:/results ${KICS_IMAGE} scan --path /project --output-path /results"""
                 }
             }
         }
