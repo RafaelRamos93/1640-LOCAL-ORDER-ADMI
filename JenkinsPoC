@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        scannerHome = tool name: 'sonar-local'
+        scannerHome = tool name: 'sonar-scanner'
         SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
         //SONAR_TOKEN = credentials('SONAR_TOKEN_LOCAL')
     }
