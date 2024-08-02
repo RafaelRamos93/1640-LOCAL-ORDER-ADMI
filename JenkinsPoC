@@ -43,7 +43,7 @@ def sonarScanCobol() {
     // Ejecuta el análisis de SonarCloud para Cobol
     // Aquí puedes usar el comando SonarScanner o el SonarQube Scanner para Jenkins
     // Ejemplo:
-    withSonarQubeEnv('sonar-scanner') {
+    withSonarQubeEnv('sonar-local') {
         dir ('Codigo/Cobol') {
             sh """
             ${scannerHome}/bin/sonar-scanner \
@@ -64,7 +64,7 @@ def sonarScanCobol() {
 
 def sonarScanCpp() {
     // Ejecuta el análisis de SonarCloud para C++
-    withSonarQubeEnv('sonar-scanner') {
+    withSonarQubeEnv('sonar-local') {
         dir('Codigo/C++') {
             sh 'pwd'
             sh 'chmod +x ./compile.sh'
