@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         scannerHome = tool name: 'sonar-local'
-        //SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
-        SONAR_TOKEN = credentials('SONAR_TOKEN_LOCAL')
+        SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
+        //SONAR_TOKEN = credentials('SONAR_TOKEN_LOCAL')
     }
     stages {
         stage('Obtener Código Fuente') {
@@ -43,7 +43,8 @@ def sonarScanCobol() {
     // Ejecuta el análisis de SonarCloud para Cobol
     // Aquí puedes usar el comando SonarScanner o el SonarQube Scanner para Jenkins
     // Ejemplo:
-    withSonarQubeEnv('sonar-local') {
+    //withSonarQubeEnv('sonar-local') {
+    withSonarQubeEnv('sonar-scanner') {
         dir ('Codigo/Cobol') {
             sh """
             ${scannerHome}/bin/sonar-scanner \
@@ -64,7 +65,8 @@ def sonarScanCobol() {
 
 def sonarScanCpp() {
     // Ejecuta el análisis de SonarCloud para C++
-    withSonarQubeEnv('sonar-local') {
+    //withSonarQubeEnv('sonar-local') {
+    withSonarQubeEnv('sonar-scanner') {
         dir('Codigo/C++') {
             sh 'pwd'
             sh 'chmod +x ./compile.sh'
