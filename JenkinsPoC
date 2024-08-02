@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        scannerHome = tool name: 'sonar-scanner'
+        scannerHome = tool name: 'sonar-local'
         SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
     }
     stages {
