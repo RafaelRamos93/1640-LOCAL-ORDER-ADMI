@@ -1,7 +1,7 @@
-#REPO_DIR="C/Citi/RepoPoC-Rafa/1640-LOCAL-ORDER-ADMI"
+REPO_DIR="C/Citi/RepoPoC-Rafa/1640-LOCAL-ORDER-ADMI/"
 
 # Cambia al directorio del repositorio
-#cd "$REPO_DIR" || exit
+cd "$REPO_DIR" || exit
 
 EXCLUDE_DIRS=(".git" ".vscode")
 EXCLUDE_FILES=(".gitignore")
@@ -23,11 +23,20 @@ done
 
 
 # Encuentra todos los archivos sin extensión excluyendo las carpetas, archivos y patrones especificados
-eval "find . $EXCLUDE_PARAMS -type f ! -name '*.*' -print" | while read -r file; do
+#eval "find . $EXCLUDE_PARAMS -type f ! -name '*.*' -print" | while read -r file; do
     # Verifica si el archivo es un archivo COBOL
-    if file "$file" | grep -q 'COBOL'; then
+#    if file "$file" | grep -q 'COBOL'; then
         # Renombra el archivo para agregar la extensión .cbl
-        mv "$file" "$file.cbl"
-        echo "Renombrado: $file -> $file.cbl"
+#        mv "$file" "$file.cbl"
+#        echo "Renombrado: $file -> $file.cbl"
+#    fi
+#done
+SEARCH_TEXT="DIVISON."
+
+# Encuentra todos los archivos en el directorio
+find . -type f | while read -r file; do
+    # Verifica si el archivo contiene el texto buscado
+    if grep -q "$SEARCH_TEXT" "$file"; then
+        echo "El texto '$SEARCH_TEXT' fue encontrado en el archivo: $file"
     fi
 done

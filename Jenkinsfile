@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         scannerHome = tool name: 'sonar-scanner'
-        SONAR_TOKEN = credentials('jenkins-sonar')
+        SONAR_TOKEN = credentials('SONAR_CLOUD_TOKEN')
     }
     stages {
         stage('Obtener el proyecto') {
@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Scanner cobol') {
             steps {
-                withSonarQubeEnv('sc1') {
+                withSonarQubeEnv('sonar-scanner') {
                     dir ('Codigo/Cobol') {
                         sh """
                         ${scannerHome}/bin/sonar-scanner \
