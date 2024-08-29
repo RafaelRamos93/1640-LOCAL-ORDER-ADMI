@@ -14,7 +14,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-scanner') {
                     dir ('Codigo/Cobol') {
-                        sh '$SONAR_SCANNER'
+                        sh 'echo $SONAR_SCANNER'
                         //sh """
                         //${scannerHome}/bin/sonar-scanner \
                         //-Dsonar.login=${SONAR_TOKEN} \
