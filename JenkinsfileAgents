@@ -15,11 +15,11 @@ pipeline {
                 withSonarQubeEnv('sonar-scanner') {
                     dir ('Codigo/Cobol') {
                         sh 'echo $SONAR_SCANNER'
-                        //sh """
-                        //${scannerHome}/bin/sonar-scanner \
-                        //-Dsonar.login=${SONAR_TOKEN} \
-                        //-X
-                        //"""
+                        sh """
+                        $SONAR_SCANNER \
+                        -Dsonar.login=${SONAR_TOKEN} \
+                        -X
+                        """
                     }
                     
                 }
