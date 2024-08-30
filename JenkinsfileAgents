@@ -14,18 +14,16 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-scanner') {
                     dir ('Codigo/Cobol') {
-                        sh 'echo $SONAR_SCANNER'
+                        //sh 'echo $SONAR_SCANNER'
                         sh """
                         $SONAR_SCANNER \
                         -Dsonar.login=${SONAR_TOKEN} \
                         -X
                         """
                     }
-                    
                 }
             }
         }
-        
         stage('Regresar ala carpeta C++') {
             steps {
                 script {
@@ -34,16 +32,14 @@ pipeline {
                         sh 'chmod +x ./compile.sh'
                         sh 'ls -a'
                         sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
-                        //sh """
-                        //${scannerHome}/bin/sonar-scanner \
-                        //-Dsonar.login=${SONAR_TOKEN} \
-                        //-X
-                        //"""
+                        sh  """
+                            $SONAR_SCANNER \
+                            -Dsonar.login=${SONAR_TOKEN} \
+                            -X
+                            """
                     }
                 }
             }
         }
-
-        
     }
 }
