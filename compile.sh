@@ -11,6 +11,7 @@ mkdir -p $BINDIR
 # Buscar todos los archivos .cpp y .c en el directorio actual y subdirectorios
 CPPSOURCES=$(find . -name '*.cpp')
 CSOURCES=$(find . -name '*.c')
+HSOURCES=$(find . -name '*.h')
 
 # Verificar si se encontraron archivos fuente
 if [ -z "$CPPSOURCES" ] && [ -z "$CSOURCES" ]; then
@@ -22,7 +23,7 @@ fi
 error_count=0
 
 # Compilar cada archivo fuente en un archivo objeto
-for src in $CPPSOURCES $CSOURCES; do
+for src in $CPPSOURCES $CSOURCES $HSOURCES; do
     objfile="$OBJDIR/$(basename $src .cpp).o"
     objfile="${objfile%.c}.o"  # Cambiar extensión de .c a .o para archivos .c
     echo "Compilando $src a $objfile"
