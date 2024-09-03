@@ -30,9 +30,9 @@ pipeline {
                         script {
                             dir('Codigo/C++') {
                                 sh 'pwd'
-                                sh 'chmod +x ./compile2.sh'
+                                sh 'chmod +x ./compile.sh'
                                 sh 'ls -a'
-                                sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile2.sh'
+                                sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
                                 sh """
                                     ${scannerHome}/bin/sonar-scanner \
                                     -Dsonar.login=${SONAR_TOKEN} \
