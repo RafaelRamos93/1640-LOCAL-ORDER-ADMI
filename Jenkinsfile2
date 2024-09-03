@@ -30,9 +30,9 @@ pipeline {
                         script {
                             dir('Codigo/C++') {
                                 sh 'pwd'
-                                sh 'chmod +x ./compile.sh'
+                                sh 'chmod +x ./compile2.sh'
                                 sh 'ls -a'
-                                sh '$SONARQUBE_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile.sh'
+                                sh '$BUILD_WRAPPER/build-wrapper-linux-x86-64 --out-dir bw-output ./compile2.sh'
                                 sh """
                                     ${scannerHome}/bin/sonar-scanner \
                                     -Dsonar.login=${SONAR_TOKEN} \
@@ -42,11 +42,6 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-        stage('Fin del pipline') {
-            steps {
-                sh 'echo Hola mundo'
             }
         }
     }
