@@ -50,5 +50,5 @@ if [ $? -ne 0 ]; then
     echo "Error al enlazar los archivos objeto"
     exit 1
 fi
- 
+
 echo "Compilación y enlace completados exitosamente"
