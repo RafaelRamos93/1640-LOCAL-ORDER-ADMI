@@ -51,4 +51,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Compilación y enlace completados exitosamente"
+echo "Compilación y enlace completados exitosamente" 
