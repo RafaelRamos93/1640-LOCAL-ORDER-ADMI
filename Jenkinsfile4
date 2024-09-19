@@ -154,5 +154,5 @@ def sonarScanCpp() {
 
     // Verifica el estado del Quality Gate
     def qualityGateResult = waitForQualityGate()
-    return qualityGateResult.status == 'OK' ? 'OK' : 'FAILED'
+    return qualityGateResult.status == 'OK' ? 'OK' : 'FAILED' 
 }
