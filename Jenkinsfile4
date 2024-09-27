@@ -145,7 +145,7 @@ def sonarScanCpp() {
 
     stage('Snyk Test') {
         sh 'snyk auth ${SNYK_TOKEN}'
-        sh 'snyk test --json --log-level info'
+        sh 'snyk test ./Codigo/C++ --json --log-level info'
     }
     stage('Snyk Monitor') {
         sh 'snyk monitor --json --log-level info'
